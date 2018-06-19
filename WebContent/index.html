@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Daily Journal</title>
+<!-- load the bootstrap stylesheet -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script data-main="./resources/js/app/main.js"
+	src="./resources/js/libs/require.js"></script>
+</head>
+<body>
+	<div id="container" style="overflow: hidden">
+		<div id="createAndUpdateNote" style="width: 45%; float: left;">
+		<br><br>
+      <a class="btn btn-block btn-large btn-info">Create New Note</a>
+        <div id="noteDetailContainer">
+          <script type="text/template" id="formTemplate">
+            <div class="form-group">
+              <label>Date:</label>
+              <input type="date" class="form-control" id="creationTime" value="<%= note.get("creationTime") %>" />
+            </div>
+            <div class="form-group">
+              <label>Title:</label>
+              <input type="text" class="form-control" id="title" value="<%= note.get("title") %>" />
+            </div>
+            <div class="form-group">
+              <label>Description:</label>
+              <textarea class="form-control" rows="10" id="content"><%= note.get("content") %></textarea>
+            </div>
+            <button class="save btn btn-large btn-info">Save</button>
+            <a class="btn btn-large btn-default">Cancel</a>
+          </script>
+        </div>
+      </div>
+		<div id="showNotes"  style="width: 50%; float: right;">
+			<script type="text/template" id="indexTemplate">
+		<br>
+		<div class="form-group row">
+      		<div class="col-xs-4">
+        		<label for="ex3">From </label>
+        		<input class="form-control" id="startTime" type="date">
+      		</div>
+      		<div class="col-xs-4">
+        		<label for="ex3">To</label>
+        		<input class="form-control" id="endTime" type="date">
+      		</div>
+			<div class="col-xs-2">
+				<label for="ex3" style="color:white">'</label>
+				<input style="background-color:#5cb85c;color:#fff;border-color:#4cae4c" class="form-control" id="search" type="button" value="Search">
+			</div>	
+    	</div>	
+        <% if (_.isEmpty(notes)){ %>
+          <div class="alert alert-warning">
+            <p>There are currently no notes. Try creating some or search existing ones.</p>
+          </div>
+        <% } %>
+
+	       <% if(! _.isEmpty(notes)){ %>
+	          <table class="table table-hover" style="table-layout:fixed">
+              <thead>
+                <tr>
+                  <th>CreatedDate</th>
+                  <th>Title</th>
+                  <th>Description</th>
+          		     <th></th>
+                </tr>
+              </thead>
+              <% _.each(notes, function (note) { %>
+              <tbody>
+                <tr>
+                  <td><button type="button" class="btn btn-link" data-value=<%= note.get("id")%>><%= note.get("creationTime") %></button></td>
+                  <td><%= note.get("title") %></td>
+                  <td style="overflow:hidden;text-overflow: ellipsis;"><%= note.get("content") %></td>
+          		    <td><a class="btn btn-xs btn-info" data-value=<%= note.get("id")%>>Edit</a>
+          			      <a class="btn btn-xs btn-danger" data-value=<%= note.get("id")%>>Delete</a>
+                  </td>
+                </tr>
+              </tbody>
+              <% });%> </table><% } %>
+     	  </script>
+		</div>
+	</div>
+</body>
+</html>
